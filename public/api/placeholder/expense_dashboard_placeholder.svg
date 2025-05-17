@@ -1,0 +1,74 @@
+<svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1600" height="900" fill="#f4f5f7" />
+  
+  <!-- Border -->
+  <rect x="10" y="10" width="1580" height="880" rx="8" ry="8" fill="white" stroke="#e0e0e0" stroke-width="2" />
+  
+  <!-- Header section -->
+  <rect x="10" y="10" width="1580" height="90" rx="8" ry="8" fill="#3498db" />
+  
+  <!-- Logo and title -->
+  <circle cx="80" cy="55" r="30" fill="#6d4c41" />
+  <path d="M80 55 L60 75 A30 30 0 0 0 100 75 Z" fill="#f4f5f7" />
+  <text x="130" y="65" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#ffffff">Dashboard Pendakian Merbabu</text>
+  
+  <!-- Buttons -->
+  <rect x="1100" y="35" width="200" height="45" rx="5" ry="5" fill="#2ecc71" />
+  <text x="1200" y="65" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">Tambah Pengeluaran</text>
+  
+  <rect x="1320" y="35" width="200" height="45" rx="5" ry="5" fill="#34495e" />
+  <text x="1420" y="65" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">Kembali ke Daftar Room</text>
+  
+  <!-- Summary Cards -->
+  <rect x="50" y="130" width="450" height="200" rx="8" ry="8" fill="#ffffff" stroke="#e0e0e0" stroke-width="1" />
+  <text x="275" y="170" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#3498db" text-anchor="middle">Total Pengeluaran</text>
+  <text x="275" y="230" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#34495e" text-anchor="middle">Rp 783.000,00</text>
+  
+  <rect x="540" y="130" width="450" height="200" rx="8" ry="8" fill="#ffffff" stroke="#e0e0e0" stroke-width="1" />
+  <text x="765" y="170" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#3498db" text-anchor="middle">Jumlah Transaksi</text>
+  <text x="765" y="230" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#34495e" text-anchor="middle">19</text>
+  
+  <rect x="1030" y="130" width="450" height="200" rx="8" ry="8" fill="#ffffff" stroke="#e0e0e0" stroke-width="1" />
+  <text x="1255" y="170" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#3498db" text-anchor="middle">Partisipan</text>
+  <text x="1255" y="230" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#34495e" text-anchor="middle">4</text>
+  
+  <!-- Transaction List -->
+  <rect x="50" y="360" width="1500" height="60" rx="5" ry="5" fill="#3498db" />
+  <text x="125" y="398" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#ffffff">Daftar Pengeluaran</text>
+  <path d="M95 380 L75 398 L95 416" stroke="#ffffff" stroke-width="4" fill="none" />
+  
+  <!-- Filter -->
+  <text x="110" y="470" font-family="Arial, sans-serif" font-size="18" fill="#555555">Filter Dibayar Oleh:</text>
+  <rect x="50" y="485" width="250" height="40" rx="5" ry="5" fill="#ffffff" stroke="#cccccc" stroke-width="1" />
+  <text x="80" y="512" font-family="Arial, sans-serif" font-size="16" fill="#333333">Semua</text>
+  <path d="M280 495 L265 510 L250 495" stroke="#555555" stroke-width="2" fill="none" />
+  
+  <!-- Transaction Table Header -->
+  <rect x="50" y="545" width="1500" height="60" rx="0" ry="0" fill="#3498db" />
+  <text x="125" y="583" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ffffff">Nama Pengeluaran</text>
+  <text x="375" y="583" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ffffff">Dibayar Oleh</text>
+  <text x="600" y="583" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ffffff">Total</text>
+  <text x="825" y="583" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ffffff">Partisipan</text>
+  <text x="1075" y="583" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ffffff">Pembagian</text>
+  <text x="1325" y="583" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ffffff">Aksi</text>
+  
+  <!-- Transaction Row -->
+  <rect x="50" y="605" width="1500" height="80" rx="0" ry="0" fill="#ffffff" stroke="#e0e0e0" stroke-width="1" />
+  <text x="125" y="648" font-family="Arial, sans-serif" font-size="18" fill="#333333">Sewa Kelompok</text>
+  <text x="375" y="648" font-family="Arial, sans-serif" font-size="18" fill="#333333">Pria</text>
+  <text x="600" y="648" font-family="Arial, sans-serif" font-size="18" fill="#333333">Rp 66.000,00</text>
+  <text x="825" y="648" font-family="Arial, sans-serif" font-size="16" fill="#333333">pria, habib, wawan, faqih</text>
+  
+  <!-- Payment Settlement -->
+  <rect x="50" y="715" width="1500" height="60" rx="5" ry="5" fill="#3498db" />
+  <text x="270" y="753" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#ffffff">Penyelesaian Pembayaran</text>
+  <path d="M110 735 L95 745 L110 755" stroke="#ffffff" stroke-width="3" fill="none" />
+  <path d="M130 735 L145 745 L130 755" stroke="#ffffff" stroke-width="3" fill="none" />
+  
+  <!-- Filter by recipient -->
+  <text x="110" y="810" font-family="Arial, sans-serif" font-size="18" fill="#555555">Filter by recipient:</text>
+  <rect x="50" y="825" width="250" height="40" rx="5" ry="5" fill="#ffffff" stroke="#cccccc" stroke-width="1" />
+  <text x="80" y="852" font-family="Arial, sans-serif" font-size="16" fill="#333333">Semua</text>
+  <path d="M280 835 L265 850 L250 835" stroke="#555555" stroke-width="2" fill="none" />
+</svg>
