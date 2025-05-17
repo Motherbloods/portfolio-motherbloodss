@@ -14,6 +14,7 @@ function Navbar() {
     const [logoSrc, setLogoSrc] = useState(logo);
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -27,6 +28,14 @@ function Navbar() {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    const closeMobileMenuWithDelay = () => {
+        setIsClosing(true);
+        setTimeout(() => {
+            setMobileMenuOpen(false);
+            setIsClosing(false);
+        }, 50); // delay 200ms
+    };
 
     return (
         <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'shadow-md backdrop-blur-lg' : 'bg-transparent'}`}>
@@ -79,13 +88,23 @@ function Navbar() {
             </nav>
 
             {/* Mobile Menu Dropdown */}
-            {mobileMenuOpen && (
-                <div className="md:hidden bg-white/95 backdrop-blur-sm border-t border-[#67AE6E]/20 py-4 shadow-lg animate-fadeIn">
+            {(mobileMenuOpen || isClosing) && (
+                <div
+                    className={`md:hidden bg-white/95 backdrop-blur-sm border-t border-[#67AE6E]/20 py-4 shadow-lg ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'
+                        }`}
+                >
                     <div className="container mx-auto px-4">
                         <ul className="space-y-4">
                             {menuItems.map(({ label, path }) => (
-                                <li key={label} className="text-[#4B5320] hover:text-[#2F3414] font-medium transition-colors cursor-pointer relative group">
-                                    <Link to={path} className="py-2 inline-block">
+                                <li
+                                    key={label}
+                                    className="text-[#4B5320] hover:text-[#2F3414] font-medium transition-colors cursor-pointer relative group"
+                                >
+                                    <Link
+                                        to={path}
+                                        className="block py-2 w-full"
+                                        onClick={closeMobileMenuWithDelay}
+                                    >
                                         {label}
                                         <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#67AE6E] transition-all duration-300 ease-out group-hover:w-full"></span>
                                     </Link>
@@ -95,6 +114,7 @@ function Navbar() {
                     </div>
                 </div>
             )}
+
         </div>
     );
 }

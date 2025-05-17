@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import useResetScroll from '../../hooks/useResetScroll';
 
 function Content() {
+    const [showContent, setShowContent] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [elementVisibility, setElementVisibility] = useState({
         heading: false,
@@ -18,9 +19,18 @@ function Content() {
     useResetScroll()
 
     useEffect(() => {
+        const delayTimer = setTimeout(() => {
+            setShowContent(true);
+        }, 200);
+
+        return () => clearTimeout(delayTimer);
+    }, []);
+
+    useEffect(() => {
+        if (!showContent) return;
         const mainTimer = setTimeout(() => {
-            setIsVisible(true);
-        }, 100);
+            setElementVisibility(prev => ({ ...prev, decorations: true }));
+        }, 0);
 
         const timers = [
             setTimeout(() => setElementVisibility(prev => ({ ...prev, heading: true })), 300),
@@ -35,7 +45,7 @@ function Content() {
             clearTimeout(mainTimer);
             timers.forEach(timer => clearTimeout(timer));
         };
-    }, []);
+    }, [showContent]);
 
 
     return (
