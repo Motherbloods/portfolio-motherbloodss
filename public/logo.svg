@@ -1,0 +1,25 @@
+<svg viewBox="69.46679999999999 18.66668 142.4 181.6" xmlns="http://www.w3.org/2000/svg" style="max-height: 500px" width="142.4" height="181.6">
+  <defs>
+    <linearGradient y2="100%" x2="100%" y1="0%" x1="0%" id="modernGradient">
+      <stop style="stop-color:#2C3E50;stop-opacity:1" offset="0%"/>
+      <stop style="stop-color:#34495E;stop-opacity:0.9" offset="50%"/>
+      <stop style="stop-color:#4A4E69;stop-opacity:0.8" offset="100%"/>
+    </linearGradient>
+    
+    <filter id="shadowEffect">
+      <feGaussianBlur stdDeviation="4" in="SourceAlpha"/>
+      <feOffset result="offsetblur" dy="5" dx="5"/>
+      <feFlood flood-opacity="0.3" flood-color="#000000"/>
+      <feComposite operator="in" in2="offsetblur"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  
+  <g transform="translate(100, 100) rotate(45)">
+    <path transform="rotate(-45)" filter="url(#shadowEffect)" fill="url(#modernGradient)" d="M0 -80 &#10;         Q40 -40, 0 0 &#10;         Q-40 40, 0 80 &#10;         Q40 120, 80 80 &#10;         Q120 40, 80 0 &#10;         Q40 -40, 0 -80"/>
+  </g>
+</svg>
