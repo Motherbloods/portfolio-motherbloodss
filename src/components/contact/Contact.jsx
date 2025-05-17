@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram } from 'lucide-react';
+import useResetScroll from '../../hooks/useResetScroll';
 
 function Contact() {
     const [isVisible, setIsVisible] = useState(false);
@@ -143,7 +144,7 @@ function Contact() {
             }));
         }, 5000);
     };
-
+    useResetScroll()
     return (
         <div className="min-h-screen relative pt-20 pb-16 px-6 md:px-12 bg-[#FBF8EF] overflow-hidden">
             {/* Backdrop decorations with staggered animation */}
