@@ -3,6 +3,7 @@ import { ExternalLink, Github, Star, Code, Eye } from 'lucide-react';
 import { motion } from 'framer-motion';
 import useResetScroll from '../../hooks/useResetScroll';
 import { containerVariants, itemVariants } from '../../utils/animationVariants';
+import { Link } from 'react-router-dom';
 
 function Projects() {
     const [selectedCategory, setSelectedCategory] = useState('all');
@@ -460,12 +461,12 @@ function Projects() {
                         I'm always open to discussing new projects and creative ideas.
                         Let's create something amazing together!
                     </p>
-                    <a
-                        href="/contact"
+                    <Link
+                        to="/contact"
                         className="inline-block px-8 py-3 bg-[#67AE6E] text-white rounded-lg hover:bg-[#4B5320] transition-colors shadow-md"
                     >
                         Get in Touch
-                    </a>
+                    </Link>
                 </motion.div>
             </div>
         </div>
