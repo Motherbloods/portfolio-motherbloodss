@@ -25,6 +25,7 @@ function Projects() {
             category: 'web',
             stars: 0,
             forks: 0,
+            lastUpdated: "May 2025",
             featured: true
         },
         {
@@ -38,7 +39,8 @@ function Projects() {
             image: '/api/placeholder/AutoExpenseCategorizer.png',
             category: 'backend',
             stars: 0,
-            forks: 0
+            forks: 0,
+            lastUpdated: "May 2025",
         },
         {
             id: 3,
@@ -52,6 +54,7 @@ function Projects() {
             category: 'mobile',
             stars: 0,
             forks: 0,
+            lastUpdated: "Apr 2025",
             featured: true
         }
         ,
@@ -66,7 +69,8 @@ function Projects() {
             image: '/api/placeholder/pintarberhitung.png',
             category: 'mobile',
             stars: 0,
-            forks: 0
+            forks: 0,
+            lastUpdated: "Oct 2024",
         }
         ,
         {
@@ -81,6 +85,7 @@ function Projects() {
             category: 'web',
             stars: 0,
             forks: 0,
+            lastUpdated: "Sep 2024",
             featured: true
         },
         {
@@ -94,7 +99,8 @@ function Projects() {
             image: '/api/placeholder/apotek.png',
             category: 'mobile',
             stars: 0,
-            forks: 0
+            forks: 0,
+            lastUpdated: "Aug 2024",
         },
         {
             id: 7,
@@ -108,6 +114,7 @@ function Projects() {
             category: 'mobile',
             stars: 0,
             forks: 0,
+            lastUpdated: "Aug 2024",
             featured: true
         }
         , {
@@ -121,7 +128,8 @@ function Projects() {
             image: '/api/placeholder/pukesmas.png',
             category: 'web',
             stars: 0,
-            forks: 0
+            forks: 0,
+            lastUpdated: "Dec 2023",
         }
         ,
         {
@@ -135,7 +143,8 @@ function Projects() {
             image: '/api/placeholder/imagetagger.png',
             category: 'web',
             stars: 0,
-            forks: 0
+            forks: 0,
+            lastUpdated: "Aug 2024",
         }
     ];
     useResetScroll();
@@ -425,7 +434,7 @@ function Projects() {
                                                         <span>{project.forks}k</span>
                                                     </div>
                                                 </div>
-                                                <span>Last updated: March 2025</span>
+                                                <span>Last updated: {project.lastUpdated}</span>
                                             </div>
                                         </motion.div>
                                     )}
