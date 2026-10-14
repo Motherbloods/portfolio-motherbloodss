@@ -1,4 +1,4 @@
-import myPhoto from "../../assets/me.jpg";
+import myPhoto from "../../assets/me.avif";
 import { Link } from "react-router-dom";
 import { ArrowRight, Github, Linkedin, Mail, Instagram } from "lucide-react";
 import { useState, useEffect } from "react";
