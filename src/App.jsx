@@ -5,6 +5,7 @@ import Content from "./components/content/Content";
 import About from "./components/about/About";
 import Project from "./components/projects/Projects";
 import Contact from "./components/contact/Contact";
+import NotFound from "./components/common/NotFound";
 
 function AppRoutes() {
   const location = useLocation();
@@ -16,6 +17,7 @@ function AppRoutes() {
         <Route path="/about" element={<About />} />
         <Route path="/projects" element={<Project />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
   );
