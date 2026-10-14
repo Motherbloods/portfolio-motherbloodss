@@ -11,7 +11,7 @@ import {
 import useResetScroll from "../../hooks/useResetScroll";
 import { containerVariants, itemVariants } from "../../utils/animationVariants";
 import useJsonData from "../../hooks/useJsonData";
-import { renderRichText } from "../../utils/richText";
+import { renderRichText } from "../../utils/RichText";
 import { DataLoading, DataError } from "../common/DataState";
 
 function About() {
@@ -49,14 +49,14 @@ function About() {
               transition={{ duration: 0.6, delay: 0.4 }}
             ></motion.div>
 
-            <motion.h2
+            <motion.h1
               className="text-5xl font-bold text-center mb-5 relative z-10"
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               About <span className="text-[#67AE6E]">Me</span>
-            </motion.h2>
+            </motion.h1>
 
             <motion.div
               className="w-20 h-1.5 bg-[#67AE6E] mx-auto rounded-full mb-10"
@@ -179,12 +179,12 @@ function About() {
           </motion.div>
 
           {/* Timeline Experience */}
-          <motion.div variants={itemVariants} className="mt-16">
+          <motion.section variants={itemVariants} className="mt-16">
             <div className="flex items-center justify-center mb-12">
               <div className="p-3 bg-[#67AE6E]/10 rounded-xl mr-4">
                 <Briefcase size={24} className="text-[#67AE6E]" />
               </div>
-              <h3 className="text-2xl font-bold">Professional Journey</h3>
+              <h2 className="text-2xl font-bold">Professional Journey</h2>
             </div>
 
             <div className="relative pl-8 border-l-2 border-[#67AE6E]/30 space-y-12 ml-6">
@@ -212,7 +212,7 @@ function About() {
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+          </motion.section>
         </div>
       </div>
     </motion.div>
