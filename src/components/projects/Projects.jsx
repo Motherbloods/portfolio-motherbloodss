@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ExternalLink, Github, Star, Code, Eye, Network } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import useResetScroll from "../../hooks/useResetScroll";
 import { containerVariants, itemVariants } from "../../utils/animationVariants";
 import { Link } from "react-router-dom";
@@ -230,10 +230,10 @@ function Projects() {
               <motion.div
                 key={project.id}
                 variants={itemVariants}
-                className={`relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 ${
+                className={`relative bg-white rounded-xl overflow-hidden border shadow-md hover:shadow-xl transition-[box-shadow,border-color] duration-300 ${
                   showDetails === project.id
-                    ? "ring-2 ring-[#67AE6E]"
-                    : "border border-[#67AE6E]/20"
+                    ? "border-[#67AE6E]"
+                    : "border-[#67AE6E]/20"
                 }`}
               >
                 <div className="relative h-48 overflow-hidden">
@@ -313,33 +313,43 @@ function Projects() {
                     </div>
                   </div>
 
-                  {/* Project Details */}
-                  {showDetails === project.id && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="mt-4 pt-4 border-t border-dashed border-[#67AE6E]/30"
-                    >
-                      <p className="text-sm text-[#4B5320]/90 mb-3">
-                        {project.longDescription}
-                      </p>
-                      <div className="flex justify-between items-center text-sm text-[#4B5320]/70">
-                        <div className="flex items-center space-x-3">
-                          <div className="flex items-center">
-                            <Star size={14} className="text-yellow-500 mr-1" />
-                            <span>{project.stars}</span>
-                          </div>
-                          <div className="flex items-center">
-                            <Eye size={14} className="mr-1" />
-                            <span>{project.forks}k</span>
+                  <AnimatePresence initial={false}>
+                    {showDetails === project.id && (
+                      <motion.div
+                        key="details"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{
+                          height: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
+                          opacity: { duration: 0.3, ease: "easeInOut" },
+                        }}
+                        className="overflow-hidden"
+                      >
+                        <div className="mt-4 pt-4 border-t border-dashed border-[#67AE6E]/30">
+                          <p className="text-sm text-[#4B5320]/90 mb-3 text-justify">
+                            {project.longDescription}
+                          </p>
+                          <div className="flex justify-between items-center text-sm text-[#4B5320]/70">
+                            <div className="flex items-center space-x-3">
+                              <div className="flex items-center">
+                                <Star
+                                  size={14}
+                                  className="text-yellow-500 mr-1"
+                                />
+                                <span>{project.stars}</span>
+                              </div>
+                              <div className="flex items-center">
+                                <Eye size={14} className="mr-1" />
+                                <span>{project.forks}k</span>
+                              </div>
+                            </div>
+                            <span>Last updated: {project.lastUpdated}</span>
                           </div>
                         </div>
-                        <span>Last updated: {project.lastUpdated}</span>
-                      </div>
-                    </motion.div>
-                  )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </motion.div>
             ))}
