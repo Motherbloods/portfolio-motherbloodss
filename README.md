@@ -1,12 +1,34 @@
-# React + Vite
+# Portfolio motherbloodss
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal portfolio Habib Risky Kurniawan (motherbloodss), dibangun dengan React, Vite, Tailwind CSS, dan Framer Motion.
 
-Currently, two official plugins are available:
+## Menjalankan
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm ci
+npm run dev
+npm run lint
+npm run build
+npm run preview
+```
 
-## Expanding the ESLint configuration
+## Environment variables
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Salin `.env.example` menjadi `.env` (file ini tidak masuk Git).
+
+| Variabel | Fungsi |
+| --- | --- |
+| `VITE_SITE_URL` | Domain final tanpa slash akhir, contoh `https://domain-anda.com`. Dipakai untuk canonical, Open Graph, sitemap.xml, dan JSON-LD WebSite. Jika kosong, bagian tersebut dilewati dan build menampilkan peringatan. |
+| `VITE_DATA_BASE_URL` | Alamat dasar repository data (about.json dan project.json) beserta gambar project. |
+| `VITE_LINKEDIN_URL` | URL profil LinkedIn. Jika kosong, tombol LinkedIn tidak ditampilkan. |
+
+## SEO
+
+- Metadata per halaman ada di `src/seo/routes.js`. Ubah di sana, lalu build ulang.
+- `scripts/seoPlugin.js` menulis title, description, canonical, Open Graph, dan Twitter Card ke HTML setiap route saat build, serta membuat `robots.txt` dan `sitemap.xml`.
+- `src/components/common/SeoManager.jsx` memperbarui metadata saat navigasi di browser.
+- Gambar pratinjau sosial: `public/og-image.png` (1200x630). Ganti dengan desain Anda sendiri bila perlu, dengan ukuran yang sama.
+
+## Deployment
+
+Hosting harus mengembalikan `index.html` untuk URL yang tidak cocok dengan file statis (SPA fallback), sambil tetap melayani `/about/index.html`, `/projects/index.html`, dan `/contact/index.html` hasil build.
