@@ -1,13 +1,13 @@
-import { Routes, Route, useLocation } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
+import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
-import Content from './components/content/Content'
-import About from './components/about/About'
-import Project from './components/projects/Projects'
-import Contact from './components/contact/Contact'
+import Content from "./components/content/Content";
+import About from "./components/about/About";
+import Project from "./components/projects/Projects";
+import Contact from "./components/contact/Contact";
 
 function AppRoutes() {
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <AnimatePresence mode="wait">
@@ -18,7 +18,7 @@ function AppRoutes() {
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </AnimatePresence>
-  )
+  );
 }
 
-export default AppRoutes
+export default AppRoutes;
