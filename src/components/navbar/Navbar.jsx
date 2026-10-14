@@ -2,12 +2,13 @@ import logo from "../../assets/modern_green_logo.svg";
 import darkLogo from "../../assets/modern_dark_green_logo.svg";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const menuItems = [
   { label: "Home", path: "/" },
   { label: "About", path: "/about" },
   { label: "Project", path: "/projects" },
+  { label: "Contact", path: "/contact" },
 ];
 
 function Navbar() {
@@ -25,7 +26,7 @@ function Navbar() {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -34,26 +35,29 @@ function Navbar() {
     setTimeout(() => {
       setMobileMenuOpen(false);
       setIsClosing(false);
-    }, 50); // delay 200ms
+    }, 50);
   };
 
   return (
     <div
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "shadow-md backdrop-blur-lg" : "bg-transparent"}`}
     >
-      <nav className="container mx-auto px-4 lg:px-6 py-3 lg:py-2 flex items-center justify-between">
+      <nav
+        aria-label="Main navigation"
+        className="container mx-auto px-4 lg:px-6 py-3 lg:py-2 flex items-center justify-between"
+      >
         <div className="text-[#4B5320] font-bold text-xl md:text-2xl tracking-wide transition-all duration-300 hover:tracking-wider flex items-center">
-          <span className="relative">
+          <Link to="/" className="relative" aria-label="Motherbloodss, home">
             Motherbloodss
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#67AE6E] transition-all duration-300 ease-out hover:w-full"></span>
-          </span>
+          </Link>
         </div>
 
         <div className="hidden md:flex flex-1 justify-center cursor-pointer">
           <div className="relative group">
             <img
               src={logoSrc}
-              alt="Logo"
+              alt="motherbloodss logo"
               className={`h-10 w-auto transition-all duration-500 ease-in-out hover:scale-110 ${scrolled ? "h-8" : "h-10"}`}
               onMouseEnter={() => setLogoSrc(darkLogo)}
               onMouseLeave={() => setLogoSrc(logo)}
@@ -69,10 +73,14 @@ function Navbar() {
                 key={label}
                 className="text-[#4B5320] hover:text-[#2F3414] font-medium transition-colors cursor-pointer relative group"
               >
-                <Link to={path} className="py-2 inline-block">
+                <NavLink
+                  to={path}
+                  end={path === "/"}
+                  className="py-2 inline-block"
+                >
                   {label}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#67AE6E] transition-all duration-300 ease-out group-hover:w-full"></span>
-                </Link>
+                </NavLink>
               </li>
             ))}
           </ul>
@@ -80,6 +88,10 @@ function Navbar() {
 
         <div className="block md:hidden">
           <button
+            type="button"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="text-[#4B5320] hover:text-[#67AE6E] transition-colors"
           >
@@ -90,6 +102,7 @@ function Navbar() {
 
       {(mobileMenuOpen || isClosing) && (
         <div
+          id="mobile-menu"
           className={`md:hidden bg-white/95 backdrop-blur-sm border-t border-[#67AE6E]/20 py-4 shadow-lg ${
             isClosing ? "animate-fadeOut" : "animate-fadeIn"
           }`}
@@ -101,14 +114,15 @@ function Navbar() {
                   key={label}
                   className="text-[#4B5320] hover:text-[#2F3414] font-medium transition-colors cursor-pointer relative group"
                 >
-                  <Link
+                  <NavLink
                     to={path}
+                    end={path === "/"}
                     className="block py-2 w-full"
                     onClick={closeMobileMenuWithDelay}
                   >
                     {label}
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#67AE6E] transition-all duration-300 ease-out group-hover:w-full"></span>
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
