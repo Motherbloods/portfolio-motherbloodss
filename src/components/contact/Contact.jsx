@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Mail,
   Phone,
@@ -10,7 +10,10 @@ import {
 } from "lucide-react";
 import useResetScroll from "../../hooks/useResetScroll";
 
+const LINKEDIN_URL = (import.meta.env.VITE_LINKEDIN_URL || "").trim();
+
 function Contact() {
+  const statusTimer = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const [elementVisibility, setElementVisibility] = useState({
     heading: false,
@@ -72,6 +75,7 @@ function Contact() {
 
     return () => {
       clearTimeout(mainTimer);
+      clearTimeout(statusTimer.current);
       timers.forEach((timer) => clearTimeout(timer));
     };
   }, []);
@@ -116,14 +120,16 @@ function Contact() {
       isSubmitting: true,
     }));
 
+    const honeypot = new FormData(e.currentTarget).get("_gotcha") || "";
+
     try {
-      // Send form data to Formspree
       const response = await fetch("https://formspree.io/f/xdkgbwby", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, _gotcha: honeypot }),
       });
 
       if (response.ok) {
@@ -152,7 +158,7 @@ function Contact() {
           isSubmitting: false,
         });
       }
-    } catch (error) {
+    } catch {
       // Handle network or other errors
       setFormStatus({
         submitted: true,
@@ -163,8 +169,8 @@ function Contact() {
       });
     }
 
-    // Reset status message after 5 seconds
-    setTimeout(() => {
+    clearTimeout(statusTimer.current);
+    statusTimer.current = setTimeout(() => {
       setFormStatus((prev) => ({
         ...prev,
         submitted: false,
@@ -237,7 +243,18 @@ function Contact() {
               Send Me a Message
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} noValidate className="space-y-6">
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="_gotcha">Leave this field empty</label>
+                <input
+                  type="text"
+                  id="_gotcha"
+                  name="_gotcha"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
               <div>
                 <label
                   htmlFor="name"
@@ -249,6 +266,7 @@ function Contact() {
                   type="text"
                   id="name"
                   name="name"
+                  autoComplete="name"
                   value={formData.name}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-[#67AE6E]/20 focus:outline-none focus:ring-2 focus:ring-[#67AE6E]/30 focus:border-[#67AE6E]"
@@ -268,6 +286,7 @@ function Contact() {
                   type="email"
                   id="email"
                   name="email"
+                  autoComplete="email"
                   value={formData.email}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-[#67AE6E]/20 focus:outline-none focus:ring-2 focus:ring-[#67AE6E]/30 focus:border-[#67AE6E]"
@@ -315,6 +334,7 @@ function Contact() {
 
               {formStatus.submitted && (
                 <div
+                  role={formStatus.success ? "status" : "alert"}
                   className={`p-3 rounded-lg ${formStatus.success ? "bg-[#67AE6E]/20 text-[#4B5320]" : "bg-red-100 text-red-700"}`}
                 >
                   {formStatus.message}
@@ -395,15 +415,17 @@ function Contact() {
                   <span className="text-[#4B5320]">GitHub</span>
                 </a>
 
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center p-4 rounded-lg bg-[#4B5320]/5 hover:bg-[#67AE6E]/20 transition-colors duration-300"
-                >
-                  <Linkedin className="w-6 h-6 text-[#4B5320] mr-3" />
-                  <span className="text-[#4B5320]">LinkedIn</span>
-                </a>
+                {LINKEDIN_URL && (
+                  <a
+                    href={LINKEDIN_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center p-4 rounded-lg bg-[#4B5320]/5 hover:bg-[#67AE6E]/20 transition-colors duration-300"
+                  >
+                    <Linkedin className="w-6 h-6 text-[#4B5320] mr-3" />
+                    <span className="text-[#4B5320]">LinkedIn</span>
+                  </a>
+                )}
 
                 <a
                   href="https://instagram.com/habibrk_"
