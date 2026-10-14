@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ExternalLink, Github, Star, Code, Eye, Network } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import useResetScroll from "../../hooks/useResetScroll";
@@ -6,13 +6,13 @@ import { containerVariants, itemVariants } from "../../utils/animationVariants";
 import { Link } from "react-router-dom";
 import useJsonData from "../../hooks/useJsonData";
 import { DataLoading, DataError } from "../common/DataState";
+import assetUrl from "../../utils/assetUrl";
 
 function Projects() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [showDetails, setShowDetails] = useState(null);
 
   const { data, loading, error } = useJsonData("project");
-  console.log("Project Data:", data); // Debugging line to check the fetched data
   const categories = data?.categories ?? ["all"];
   const projects = data?.projects ?? [];
   const visibleProjects =
@@ -21,16 +21,6 @@ function Projects() {
       : projects.filter((project) => project.category === selectedCategory);
 
   useResetScroll();
-
-  useEffect(() => {
-    if (!data) return;
-
-    const timer = setTimeout(() => {
-      document.querySelector(".projects-container")?.classList.add("fade-in");
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [selectedCategory, data]);
 
   if (loading) return <DataLoading />;
   if (error || !data)
@@ -62,14 +52,14 @@ function Projects() {
               transition={{ duration: 0.6, delay: 0.2 }}
             ></motion.div>
 
-            <motion.h2
+            <motion.h1
               className="text-5xl font-bold mb-4 relative z-10"
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6 }}
             >
               My <span className="text-[#67AE6E]">Projects</span>
-            </motion.h2>
+            </motion.h1>
 
             <motion.p
               className="text-xl text-[#4B5320]/80 max-w-2xl mx-auto"
@@ -99,6 +89,8 @@ function Projects() {
             {categories.map((category) => (
               <button
                 key={category}
+                type="button"
+                aria-pressed={selectedCategory === category}
                 onClick={() => setSelectedCategory(category)}
                 className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
                   selectedCategory === category
@@ -119,10 +111,10 @@ function Projects() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mb-16"
             >
-              <h3 className="text-2xl font-bold mb-8 inline-flex items-center">
+              <h2 className="text-2xl font-bold mb-8 inline-flex items-center">
                 <Star className="mr-2 text-[#67AE6E]" size={20} />
                 Featured Projects
-              </h3>
+              </h2>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {projects
@@ -135,8 +127,12 @@ function Projects() {
                     >
                       <div className="relative">
                         <img
-                          src={`${import.meta.env.VITE_DATA_BASE_URL}${project.image}`}
+                          src={assetUrl(project.image)}
                           alt={project.title}
+                          width={1280}
+                          height={720}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-52 object-cover"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#000000CC] to-transparent"></div>
@@ -192,24 +188,28 @@ function Projects() {
                           </div>
 
                           <div className="flex items-center space-x-3">
-                            <a
-                              href={project.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="p-2 bg-[#4B5320]/10 rounded-full hover:bg-[#4B5320]/20 transition-colors"
-                              aria-label="GitHub Repository"
-                            >
-                              <Github size={18} />
-                            </a>
-                            <a
-                              href={project.demoLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="p-2 bg-[#67AE6E]/20 rounded-full hover:bg-[#67AE6E]/30 transition-colors"
-                              aria-label="Live Demo"
-                            >
-                              <ExternalLink size={18} />
-                            </a>
+                            {project.link && (
+                              <a
+                                href={project.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 bg-[#4B5320]/10 rounded-full hover:bg-[#4B5320]/20 transition-colors"
+                                aria-label={`GitHub repository ${project.title}`}
+                              >
+                                <Github size={18} />
+                              </a>
+                            )}
+                            {project.demoLink && (
+                              <a
+                                href={project.demoLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 bg-[#67AE6E]/20 rounded-full hover:bg-[#67AE6E]/30 transition-colors"
+                                aria-label={`Live demo ${project.title}`}
+                              >
+                                <ExternalLink size={18} />
+                              </a>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -219,7 +219,7 @@ function Projects() {
             </motion.div>
           )}
 
-          {/* All Projects */}
+          <h2 className="sr-only">All projects</h2>
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -238,8 +238,12 @@ function Projects() {
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
-                    src={`${import.meta.env.VITE_DATA_BASE_URL}${project.image}`}
+                    src={assetUrl(project.image)}
                     alt={project.title}
+                    width={1280}
+                    height={720}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.7)] via-transparent to-transparent"></div>
@@ -277,6 +281,8 @@ function Projects() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <button
+                        type="button"
+                        aria-expanded={showDetails === project.id}
                         onClick={() =>
                           setShowDetails(
                             showDetails === project.id ? null : project.id,
@@ -292,24 +298,28 @@ function Projects() {
                     </div>
 
                     <div className="flex items-center space-x-2">
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 bg-[#4B5320]/10 rounded-full hover:bg-[#4B5320]/20 transition-colors"
-                        aria-label="GitHub Repository"
-                      >
-                        <Github size={16} />
-                      </a>
-                      <a
-                        href={project.demoLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 bg-[#67AE6E]/15 rounded-full hover:bg-[#67AE6E]/30 transition-colors"
-                        aria-label="Live Demo"
-                      >
-                        <ExternalLink size={16} />
-                      </a>
+                      {project.link && (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1.5 bg-[#4B5320]/10 rounded-full hover:bg-[#4B5320]/20 transition-colors"
+                          aria-label={`GitHub repository ${project.title}`}
+                        >
+                          <Github size={16} />
+                        </a>
+                      )}
+                      {project.demoLink && (
+                        <a
+                          href={project.demoLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1.5 bg-[#67AE6E]/15 rounded-full hover:bg-[#67AE6E]/30 transition-colors"
+                          aria-label={`Live demo ${project.title}`}
+                        >
+                          <ExternalLink size={16} />
+                        </a>
+                      )}
                     </div>
                   </div>
 
