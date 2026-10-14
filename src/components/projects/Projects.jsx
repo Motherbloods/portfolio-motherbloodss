@@ -4,219 +4,40 @@ import { motion } from "framer-motion";
 import useResetScroll from "../../hooks/useResetScroll";
 import { containerVariants, itemVariants } from "../../utils/animationVariants";
 import { Link } from "react-router-dom";
+import useJsonData from "../../hooks/useJsonData";
+import { DataLoading, DataError } from "../common/DataState";
 
 function Projects() {
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [visibleProjects, setVisibleProjects] = useState([]);
   const [showDetails, setShowDetails] = useState(null);
 
-  const categories = ["all", "web", "mobile", "backend", "networking"];
+  const { data, loading, error } = useJsonData("project");
+  console.log("Project Data:", data); // Debugging line to check the fetched data
+  const categories = data?.categories ?? ["all"];
+  const projects = data?.projects ?? [];
+  const visibleProjects =
+    selectedCategory === "all"
+      ? projects
+      : projects.filter((project) => project.category === selectedCategory);
 
-  const projects = [
-    {
-      id: 1,
-      title: "Smart Expense Tracker",
-      description:
-        "Aplikasi web untuk mencatat pengeluaran secara otomatis dengan kategorisasi berbasis AI dan notifikasi real-time.",
-      longDescription:
-        "Smart Expense Tracker adalah aplikasi berbasis web yang dirancang untuk membantu pengguna mengelola keuangan dengan efisien. Aplikasi ini menggunakan model AI AutoExpense Categorizer untuk mengelompokkan pengeluaran secara otomatis. Didukung notifikasi real-time melalui Pusher dan Telegram Webhook, serta tampilan modern menggunakan Vite + React. Fitur unggulan termasuk histori transaksi, pengelompokan otomatis, analisis bulanan, dan integrasi notifikasi cerdas.",
-      tech: [
-        "React (Vite)",
-        "Node.js",
-        "Pusher",
-        "Telegram Webhook",
-        "AutoExpense Categorizer",
-      ],
-      link: "https://github.com/Motherbloods/Smart-Expense-Tracker",
-      demoLink: "https://smart-expense-tracker-pearl.vercel.app/",
-      image: "/api/placeholder/SmartExpenseTracker.svg",
-      category: "web",
-      stars: 0,
-      forks: 0,
-      lastUpdated: "May 2025",
-      featured: true,
-    },
-    {
-      id: 2,
-      title: "Auto Expense Categorizer",
-      description:
-        "Layanan backend berbasis Python untuk mengelompokkan pengeluaran secara otomatis menggunakan AI.",
-      longDescription:
-        "Auto Expense Categorizer adalah sistem klasifikasi transaksi berbasis AI yang dibangun dengan Python dan menggunakan dataset khusus buatan sendiri. Model ini memanfaatkan teknik Natural Language Processing (NLP) untuk mengkategorikan deskripsi transaksi ke dalam kategori seperti Makanan, Transportasi, dan Belanja. Dirancang agar mudah diintegrasikan ke aplikasi keuangan lainnya sebagai layanan backend mandiri.",
-      tech: ["Python", "FastAPI", "scikit-learn", "pandas"],
-      link: "https://github.com/Motherbloods/autoexpense-categorizer",
-      demoLink: "#",
-      image: "/api/placeholder/AutoExpenseCategorizer.png",
-      category: "backend",
-      stars: 0,
-      forks: 0,
-      lastUpdated: "May 2025",
-    },
-    {
-      id: 3,
-      title: "Live Push Notification",
-      description:
-        "Aplikasi Flutter yang memberikan notifikasi real-time saat pengguna TikTok tertentu mulai live.",
-      longDescription:
-        "Aplikasi ini memantau akun TikTok pilihan dan mengirimkan notifikasi instan melalui Firebase Cloud Messaging saat akun tersebut mulai live. Dilengkapi dengan dashboard analitik yang menampilkan data sesi live secara rinci, kalender untuk melihat riwayat live berdasarkan tanggal, serta visualisasi data menggunakan chart. Aplikasi juga mendukung cache untuk akses offline dan fitur alarm otomatis saat sesi live dimulai.",
-      tech: ["Flutter", "Firebase FCM", "MongoDB", "Node.js"],
-      link: "https://github.com/Motherbloods/Live-Push-Notification",
-      demoLink: "#",
-      image: "/api/placeholder/live-dashboard.svg ",
-      category: "mobile",
-      stars: 0,
-      forks: 0,
-      lastUpdated: "Apr 2025",
-      featured: true,
-    },
-    {
-      id: 4,
-      title: "Pintar Berhitung Kivy",
-      description:
-        "Aplikasi belajar matematika interaktif dengan fitur gamifikasi untuk semua usia.",
-      longDescription:
-        "Selamat datang di Pintar Berhitung, aplikasi belajar matematika yang penuh tantangan seru dan interaktif! Pintar Berhitung membantu meningkatkan kemampuan berhitung sambil bersenang-senang dengan fitur gamifikasi yang menarik, seperti avatar, stars, skor, dan sistem level. Cocok untuk pelajar dari segala usia, aplikasi ini menawarkan pengalaman belajar yang mengasyikkan dan memotivasi pengguna untuk terus berlatih. Dilengkapi dengan mode latihan, kuis, dan laporan kemajuan.",
-      tech: ["Python", "Kivy"],
-      link: "https://github.com/Motherbloods/Pintar-Berhitung-Kivy-Python",
-      demoLink:
-        "https://play.google.com/store/apps/details?id=org.motherbloodss.asix.pintarberhitungasix",
-      image: "/api/placeholder/pintarberhitung.png",
-      category: "mobile",
-      stars: 0,
-      forks: 0,
-      lastUpdated: "Oct 2024",
-    },
-    {
-      id: 5,
-      title: "Expense Splitter",
-      description:
-        "Aplikasi web untuk membagi pengeluaran kelompok secara otomatis.",
-      longDescription:
-        "Aplikasi ini menghitung pembagian pengeluaran berdasarkan kontribusi masing-masing anggota. Cocok untuk kegiatan seperti hiking, jalan-jalan, atau acara bersama. Mendukung ekspor laporan PDF dan pengelolaan multi-event.",
-      tech: ["Node.js", "Express", "EJS", "MongoDB"],
-      link: "https://github.com/Motherbloods/Expense-Splitter",
-      demoLink: "#",
-      image: "/api/placeholder/expense_dashboard_placeholder.svg",
-      category: "web",
-      stars: 0,
-      forks: 0,
-      lastUpdated: "Sep 2024",
-      featured: true,
-    },
-    {
-      id: 6,
-      title: "Apotek Management App",
-      description:
-        "Aplikasi mobile Flutter untuk manajemen stok obat dan informasi apotek.",
-      longDescription:
-        "Aplikasi Apotek adalah sebuah aplikasi mobile yang memungkinkan pengguna untuk mencari, melihat, dan mengelola informasi obat-obatan. Fitur termasuk pencarian obat, tampilan detail obat, manajemen stok, autentikasi pengguna, dan profil. Backend menggunakan Node.js dan MongoDB untuk operasi CRUD yang andal.",
-      tech: ["Flutter", "Node.js", "MongoDB", "Express"],
-      link: "https://github.com/Motherbloods/Apotek",
-      demoLink: "#",
-      image: "/api/placeholder/apotek.png",
-      category: "mobile",
-      stars: 0,
-      forks: 0,
-      lastUpdated: "Aug 2024",
-    },
-    {
-      id: 7,
-      title: "Flutter Ecommerce",
-      description:
-        "Aplikasi belanja online berbasis Flutter dengan fitur lengkap dan backend Node.js.",
-      longDescription:
-        "Aplikasi ini adalah platform e-commerce modern yang memungkinkan pengguna untuk berbelanja online, berkomunikasi dengan penjual secara real-time, serta mengelola profil mereka. Dibangun dengan Flutter untuk tampilan frontend dan Node.js sebagai backend, aplikasi ini mendukung pencarian dan penjelajahan produk, keranjang belanja, checkout, rekomendasi produk, dan sistem obrolan menggunakan Socket.IO. Redis digunakan untuk caching dan MongoDB sebagai database utama.",
-      tech: [
-        "Flutter",
-        "Node.js",
-        "Express.js",
-        "MongoDB",
-        "Socket.IO",
-        "Redis",
-      ],
-      link: "https://github.com/habibrk/flutter-ecommerce",
-      demoLink: "#",
-      image: "/api/placeholder/iriecommerce.png",
-      category: "mobile",
-      stars: 0,
-      forks: 0,
-      lastUpdated: "Aug 2024",
-      featured: true,
-    },
-    {
-      id: 8,
-      title: "Puskesmas Digital",
-      description:
-        "Aplikasi manajemen Puskesmas berbasis web dengan fitur CRUD dan notifikasi real-time.",
-      longDescription:
-        "Puskesmas Digital adalah sistem manajemen berbasis web yang dirancang untuk membantu staf Puskesmas dalam mengelola data pasien, jadwal dokter, riwayat pemeriksaan, dan antrian layanan. Aplikasi ini memiliki sistem autentikasi dengan peran Admin dan User, mendukung fitur CRUD lengkap, serta dilengkapi dengan notifikasi real-time menggunakan Pusher. Backend dibangun menggunakan Laravel dan database menggunakan MySQL.",
-      tech: ["Laravel", "MySQL", "Pusher"],
-      link: "https://github.com/Motherbloods/Pukesmas-Crud-with-Pusher",
-      demoLink: "#",
-      image: "/api/placeholder/pukesmas.png",
-      category: "web",
-      stars: 0,
-      forks: 0,
-      lastUpdated: "Dec 2023",
-    },
-    {
-      id: 9,
-      title: "Imager Tagger",
-      description:
-        "Aplikasi web untuk mengunggah gambar dan otomatis menambahkan cap waktu, lalu mengunduh hasilnya.",
-      longDescription:
-        "Imager Tagger memungkinkan pengguna mengunggah satu atau banyak gambar sekaligus, kemudian secara otomatis menambahkan cap waktu pada setiap gambar menggunakan pemrosesan gambar dengan Jimp di backend Node.js. Untuk unggahan banyak gambar, aplikasi akan mengemas gambar hasil edit ke dalam file zip agar mudah diunduh. Cocok untuk pengelolaan media dan optimasi SEO gambar. Tampilan menggunakan EJS sebagai templating engine.",
-      tech: ["Node.js", "Express.js", "Multer", "Jimp", "EJS", "Archiver"],
-      link: "https://github.com/Motherbloods/Image-Tagger",
-      demoLink: "#",
-      image: "/api/placeholder/imagetagger.png",
-      category: "web",
-      stars: 0,
-      forks: 0,
-      lastUpdated: "Aug 2024",
-    },
-    /*
-        FORMAT PROJECT NETWORKING (hapus tanda komentar ini dan isi sesuai project):
-        ,
-        {
-            id: 10,                                  // angka unik, lanjutkan dari id terakhir
-            title: 'Nama Project',                   // judul project
-            description: 'Deskripsi singkat 1-2 kalimat.',   // tampil di kartu
-            longDescription: 'Deskripsi lengkap: topologi, tujuan, hasil.', // tampil saat detail dibuka
-            tech: ['Cisco Packet Tracer', 'VLAN', 'OSPF'],   // daftar tools / teknologi / protokol
-            link: 'https://github.com/username/repo',        // link repo / dokumentasi
-            demoLink: '#',                                   // link demo / video, '#' jika tidak ada
-            image: '/api/placeholder/nama-gambar.png',       // gambar topologi / screenshot
-            category: 'networking',                          // WAJIB 'networking' agar muncul di tab ini
-            stars: 0,
-            forks: 0,
-            lastUpdated: "Oct 2026",                         // format "Bulan Tahun"
-            featured: false                                  // true jika ingin tampil di Featured Projects
-        }
-        */
-  ];
   useResetScroll();
 
   useEffect(() => {
-    filterProjects(selectedCategory);
+    if (!data) return;
 
-    // Animasi saat komponen dimuat
     const timer = setTimeout(() => {
-      document.querySelector(".projects-container").classList.add("fade-in");
+      document.querySelector(".projects-container")?.classList.add("fade-in");
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [selectedCategory]);
+  }, [selectedCategory, data]);
 
-  const filterProjects = (category) => {
-    if (category === "all") {
-      setVisibleProjects(projects);
-    } else {
-      setVisibleProjects(
-        projects.filter((project) => project.category === category),
-      );
-    }
-  };
+  if (loading) return <DataLoading />;
+  if (error || !data)
+    return (
+      <DataError message="Data project tidak dapat dimuat. Coba muat ulang halaman." />
+    );
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -314,13 +135,13 @@ function Projects() {
                     >
                       <div className="relative">
                         <img
-                          src={project.image}
+                          src={`${import.meta.env.VITE_DATA_BASE_URL}${project.image}`}
                           alt={project.title}
                           className="w-full h-52 object-cover"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#000000CC] to-transparent"></div>
                         <div className="absolute bottom-0 left-0 p-4 w-full">
-                          <span className="px-3 py-1 bg-[#67AE6E] text-white text-xs font-medium rounded-full">
+                          <span className="px-3 py-1 bg-[#67AE6E] text-white text-xs font-medium rounded-full capitalize">
                             {project.category}
                           </span>
                         </div>
@@ -417,13 +238,13 @@ function Projects() {
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
-                    src={project.image}
+                    src={`${import.meta.env.VITE_DATA_BASE_URL}${project.image}`}
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.7)] via-transparent to-transparent"></div>
                   <div className="absolute top-3 left-3">
-                    <span className="px-2 py-1 bg-white/80 backdrop-blur-sm text-[#4B5320] text-xs font-medium rounded-md">
+                    <span className="px-2 py-1 bg-white/80 backdrop-blur-sm text-[#4B5320] text-xs font-medium rounded-md capitalize">
                       {project.category}
                     </span>
                   </div>
